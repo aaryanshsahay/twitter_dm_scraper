@@ -281,7 +281,6 @@ async def fetch_users_metadata(auth_data: AuthData):
                     raise HTTPException(status_code=resp.status, detail=detail)
                 data = await resp.json()
 
-                # Twitter sometimes nests users inside "inbox_initial_state"
                 initial_state = data.get("inbox_initial_state", data)
                 users = initial_state.get("users", {})
                 all_users.update(users)
