@@ -1,70 +1,81 @@
 # Twitter DM Scraper API
 
-This FastAPI service provides endpoints to fetch Twitter Direct Message (DM) conversations and user metadata by leveraging Twitter’s private API endpoints. The service requires user authentication via cookies and bearer token.
+## Table of Contents
+
+1. [Authentication Requirements](#authentication-requirements)  
+2. [API Endpoints](#api-endpoints)  
+   2.1 [POST /fetch_initial_state](#21-fetch_initial_state)  
+   2.2 [POST /fetch_users_metadata](#22-fetch_users_metadata)  
+   2.3 [POST /fetch_all_conversations](#23-fetch_all_conversations)  
+3. [Important Notes](#important-notes)  
 
 ---
 
-## Authentication
+## 1. Authentication Requirements
 
-Each endpoint requires passing:
+Each endpoint requires the following authentication information:
 
-- **cookies**: A dictionary of cookies `{name: value}` from the authenticated Twitter session.  
-- **bearer_token**: Twitter OAuth2 Bearer token string.  
+- **cookies**: A dictionary of cookie name-value pairs from the user’s Twitter session.  
+- **bearer_token**: The OAuth2 bearer token string associated with the session.  
 
-These credentials are used internally to authenticate API calls to Twitter.
+These credentials authenticate requests made to Twitter on behalf of the user.
 
 ---
 
-## Endpoints
+## 2. API Endpoints
 
-### `/fetch_initial_state`  
-**Method:** POST  
+### 2.1 POST /fetch_initial_state  
 **Description:**  
-Fetches the initial DM inbox state from Twitter and returns a deduplicated list of conversation IDs available for the authenticated user. This endpoint handles the first step in retrieving DM conversations by providing conversation identifiers.
+Retrieves the initial state of the user’s DM inbox. This endpoint extracts and returns a unique list of conversation IDs that represent all active DM threads available to the authenticated user.
 
 **Request Body:**  
-Requires authentication data: cookies and bearer token.
+- Authentication data containing `cookies` and `bearer_token`.
 
 **Response:**  
-Returns a JSON object containing a list of unique conversation IDs.
+- JSON object with a deduplicated list of conversation IDs.
 
 ---
 
-### `/fetch_users_metadata`  
-**Method:** POST  
+### 2.2 POST /fetch_users_metadata  
 **Description:**  
-Fetches all user metadata related to the authenticated user’s DM inbox. The endpoint paginates through the inbox state pages and aggregates all user details. Returned data contains a dictionary keyed by user ID with user name and screen name as values.
+Fetches metadata for all users involved in the authenticated user’s DM conversations. The endpoint handles pagination internally to gather complete user data across inbox pages.
 
 **Request Body:**  
-Requires authentication data: cookies and bearer token.
+- Authentication data containing `cookies` and `bearer_token`.
 
 **Response:**  
-Returns a JSON object containing user metadata: user IDs mapped to names and screen names.
+- JSON object containing a dictionary keyed by user IDs, with values including user `name` and `screen_name`.
 
 ---
 
-### `/fetch_all_conversations`  
-**Method:** POST  
+### 2.3 POST /fetch_all_conversations  
 **Description:**  
-Retrieves the full DM conversations for the authenticated user. It first fetches all conversation IDs using the initial state endpoint, then concurrently fetches message data for each conversation. The result includes conversation IDs along with their respective messages, sender and recipient IDs, text content, and timestamps.
+Retrieves detailed message history for all DM conversations of the authenticated user. It first obtains all conversation IDs via the initial state, then concurrently fetches messages for each conversation. Returned data includes conversation IDs alongside arrays of message objects, each containing sender/recipient IDs, text, and timestamps.
 
 **Request Body:**  
-Requires authentication data: cookies and bearer token.
+- Authentication data containing `cookies` and `bearer_token`.
 
 **Response:**  
-Returns a JSON object containing a list of conversations, each with its ID and an array of messages.
+- JSON object containing a list of conversations, where each conversation includes:
+  - `conversation_id`
+  - `messages` (list of message objects with sender, recipient, text, timestamp)
 
 ---
 
-## Notes
+## 3. Important Notes
 
-- All endpoints require valid Twitter authentication cookies and bearer token for authorization.  
-- The service uses a secure SSL context with `certifi` to ensure HTTPS request integrity.  
-- Pagination is supported where applicable to retrieve comprehensive datasets.  
-- Users should be aware of Twitter's rate limits and API restrictions to avoid blocking or throttling.
+- **Authentication:** Valid cookies and bearer token are mandatory for all requests.  
+- **Security:** Uses SSL context with certificate verification via `certifi` for secure communication.  
+- **Pagination:** Supported in user metadata retrieval to ensure complete data collection.  
+- **Concurrency:** Message fetching is performed asynchronously to speed up retrieval of multiple conversations.  
+- **API Limits:** Users should respect Twitter's API rate limits to avoid temporary blocks or throttling.  
 
 ---
 
-## Screenshots
+## Documentation
 
-Screenshots documenting success cases, error responses, and edge cases for each endpoint should be added manually here.
+Screenshots illustrating successful responses, error messages, and edge cases should be included separately to aid debugging and understanding of endpoint behaviors.
+
+---
+
+Feel free to extend this documentation with examples or detailed descriptions as needed.
