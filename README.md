@@ -7,7 +7,7 @@ Clone & run `uvicorn app:app --reload`
 2. [API Endpoints](#api-endpoints)  
    2.1 [POST /fetch_initial_state](#21-post-fetch_initial_state)  
    2.2 [POST /fetch_users_metadata](#22-post-fetch_users_metadata)  
-   2.3 [POST /fetch_dm/{conversation_id}](#23-post-fetch_dm)
+   2.3 [POST /fetch_dm/{conversation_id}](#23-post-fetch_dm)<br>
    2.4 [POST /fetch_all_conversations](#24-post-fetch_all_conversations)
 4. [Important Notes](#important-notes)  
 
