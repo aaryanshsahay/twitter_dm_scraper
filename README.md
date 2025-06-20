@@ -52,6 +52,10 @@ Fetches metadata for all users involved in the authenticated user’s DM convers
 **Response:**  
 - JSON object containing a dictionary keyed by user IDs, with values including user `name` and `screen_name`.
 
+**Example**
+<img width="1427" alt="image" src="https://github.com/user-attachments/assets/79061467-753c-4c31-b24f-ea1125954d24" />
+![endpoint2](https://github.com/user-attachments/assets/1fbdf29f-d453-4546-a687-d19a2ccb820a)
+
 ---
 
 ### 2.3 POST /fetch_all_conversations  
