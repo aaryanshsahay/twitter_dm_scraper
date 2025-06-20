@@ -1,12 +1,13 @@
-# Twitter DM Scraper API
+# Twitter DM Scraper API  
 Clone & run `uvicorn app:app --reload`
+
 ## Table of Contents
 
 1. [Authentication Requirements](#authentication-requirements)  
 2. [API Endpoints](#api-endpoints)  
-   2.1 [POST /fetch_initial_state](#21-fetch_initial_state)  
-   2.2 [POST /fetch_users_metadata](#22-fetch_users_metadata)  
-   2.3 [POST /fetch_all_conversations](#23-fetch_all_conversations)  
+   2.1 [POST /fetch_initial_state](#21-post-fetch_initial_state)  
+   2.2 [POST /fetch_users_metadata](#22-post-fetch_users_metadata)  
+   2.3 [POST /fetch_all_conversations](#23-post-fetch_all_conversations)  
 3. [Important Notes](#important-notes)  
 
 ---
