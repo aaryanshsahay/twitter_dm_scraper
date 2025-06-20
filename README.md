@@ -1,5 +1,5 @@
 # Twitter DM Scraper API
-
+Clone & run `uvicorn app:app --reload`
 ## Table of Contents
 
 1. [Authentication Requirements](#authentication-requirements)  
