@@ -35,6 +35,11 @@ Retrieves the initial state of the user’s DM inbox. This endpoint extracts and
 **Response:**  
 - JSON object with a deduplicated list of conversation IDs.
 
+**Example**
+<img width="1435" alt="Screenshot 2025-06-19 at 8 36 59 PM" src="https://github.com/user-attachments/assets/d78d0afb-a5f7-45e4-a1d9-48014bae7c8e" />
+![endpoint1](https://github.com/user-attachments/assets/18e545a3-cc68-4cef-8db5-48c0d3d9706b)
+
+
 ---
 
 ### 2.2 POST /fetch_users_metadata  
