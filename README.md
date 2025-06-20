@@ -7,8 +7,9 @@ Clone & run `uvicorn app:app --reload`
 2. [API Endpoints](#api-endpoints)  
    2.1 [POST /fetch_initial_state](#21-post-fetch_initial_state)  
    2.2 [POST /fetch_users_metadata](#22-post-fetch_users_metadata)  
-   2.3 [POST /fetch_all_conversations](#23-post-fetch_all_conversations)  
-3. [Important Notes](#important-notes)  
+   2.3 [POST /fetch_dm/{conversation_id}](#23-post-fetch_dm)
+   2.4 [POST /fetch_all_conversations](#24-post-fetch_all_conversations)
+4. [Important Notes](#important-notes)  
 
 ---
 
@@ -58,7 +59,33 @@ Fetches metadata for all users involved in the authenticated user’s DM convers
 
 ---
 
-### 2.3 POST /fetch_all_conversations  
+### 2.3 POST /fetch_dm/{conversation_id}  
+**Description:**  
+Retrieves the detailed message history for a specific DM conversation identified by the `conversation_id`. This endpoint fetches all messages within the conversation, including sender and recipient IDs, message text, and timestamps, handling pagination internally if needed.
+
+**Path Parameters:**  
+- `conversation_id` [string]: The unique identifier of the DM conversation to fetch messages from.
+
+**Request Headers:**  
+- Requires authentication headers including valid `cookies` and `bearer_token`.
+
+**Response:**  
+- JSON object containing:  
+  - `conversation_id`: The requested conversation's ID.  
+  - `messages`: A list of message objects, each including:  
+    - `sender_id` [string]: ID of the message sender.  
+    - `recipient_id` [string]: ID of the message recipient.  
+    - `text` [string]: The text content of the message.  
+    - `timestamp` [string, ISO8601]: The message's sent time in ISO 8601 format.
+
+**Example**
+<img width="1442" alt="image" src="https://github.com/user-attachments/assets/877169a4-c013-4065-a18d-fca0515a6058" />
+
+![image](https://github.com/user-attachments/assets/12cbd5a4-2942-4956-bce6-121dec6d08fb)
+
+---
+   
+### 2.4 POST /fetch_all_conversations        
 **Description:**  
 Retrieves detailed message history for all DM conversations of the authenticated user. It first obtains all conversation IDs via the initial state, then concurrently fetches messages for each conversation. Returned data includes conversation IDs alongside arrays of message objects, each containing sender/recipient IDs, text, and timestamps.
 
@@ -69,6 +96,10 @@ Retrieves detailed message history for all DM conversations of the authenticated
 - JSON object containing a list of conversations, where each conversation includes:
   - `conversation_id`
   - `messages` (list of message objects with sender, recipient, text, timestamp)
+**Example**
+<img width="1432" alt="image" src="https://github.com/user-attachments/assets/6e342f48-923b-42cc-b0dd-ea2e3536c0f0" />
+
+![image](https://github.com/user-attachments/assets/093ce396-fdfd-4d87-9387-10a5109d4b35)
 
 ---
 
@@ -78,14 +109,9 @@ Retrieves detailed message history for all DM conversations of the authenticated
 - **Security:** Uses SSL context with certificate verification via `certifi` for secure communication.  
 - **Pagination:** Supported in user metadata retrieval to ensure complete data collection.  
 - **Concurrency:** Message fetching is performed asynchronously to speed up retrieval of multiple conversations.  
-- **API Limits:** Users should respect Twitter's API rate limits to avoid temporary blocks or throttling.  
+- **API Limits:** No rate limiting logic
 
 ---
-
-## Documentation
-
-Screenshots illustrating successful responses, error messages, and edge cases should be included separately to aid debugging and understanding of endpoint behaviors.
-
----
-
-Feel free to extend this documentation with examples or detailed descriptions as needed.
+## Future Work:
+- Implement Logging
+- Implement rate limits/ proxy rotation.
